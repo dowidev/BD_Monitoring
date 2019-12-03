@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<table class="table table-stripped">
+    <tbody>
+       <tr>
+           <td><h2>Requirement</h2></td><td><h2><a href=""> {{  object.requirement }}  </a></h2></td>
+       </tr>
+       <tr>
+           <td>User name</td><td>  {{ object.user1   }}</td>
+       </tr>
+       <tr>
+           <td>Author</td><td>{{ object.author   }}</td>
+       </tr>
+       <tr>
+           <td>Director/AP</td><td>{{ object.get_dir_ap_display }}</td>
+       </tr>
+       <tr>
+           <td>Req. Type</td><td>{{ object.get_requirement_type_display   }}</td>
+       </tr>
+       <tr>
+           <td>Prioritas</td><td>{{ object.get_prioritas_display   }}</td>
+       </tr>
+       <tr>
+           <td>Target</td><td>{{ object.get_target_display   }}</td>
+       </tr>
+       <tr>
+           <td>Budget</td><td>{{ object.budget   }} KIDR</td>
+       </tr>
+       <tr>
+           <td>Last Updated</td><td>{{ object.last_updated}}</td>
+       </tr>
+       <tr>
+           <td>Document</td><td><a href="{{ object.document.url }}"> {{ object.document.url }}</a> </td>
+       </tr>
+       <tr>
+           <td><a class="btn btn-primary" href="{% url 'post_edit' post.pk %}" role="button">Edit Req</a></td>
+           <td><a class="btn btn-danger" href="{% url 'post_delete' post.pk %}" role="button">Delete Req</a></td>
+       </tr>
+
+    </tbody>
+</table>
+
+
+<h2><a href="">Status: </a></h2>
+<table class="table table-hover">
+
+    <thead class="thead-dark">
+          <tr>
+            <th>Oleh</th>
+            <th>tanggal</th>
+            <th>Progres</th>
+            <th>Status</th>
+            <th>Status Akhir</th>
+          </tr>
+    </thead>
+    <tbody>
+
+            {% for comment in post.updates.all %}
+            <tr>
+                <td>{{ comment.author }}</td>
+                <td>{{ comment.last_update }} </td>
+                <td>{{ comment.progress }} % </td>
+                <td>{{ comment.get_status_display }}</td>
+                <td>{{ comment.status_akhir }}</td>
+            </tr>
+            {% endfor %}
+    </tbody>
+</table>
+
+<a class="btn btn-primary" href="{% url 'update_new' %}" role="button">New Status</a>
+
+
+{% endblock content %}

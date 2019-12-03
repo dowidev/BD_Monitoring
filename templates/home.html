@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+{% if user.is_authenticated %}
+
+<p></p>
+<a class="btn btn-primary" role="button" href="{% url 'post_new' %}">New Req</a>
+<p></p>
+<table  id="table_id"   class="table table-hover">
+        <thead class="thead-dark">
+          <tr>
+            <th>Requirement</th>
+            <th>User Name</th>
+            <th>Director/AP</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for post in all_posts_list %}
+                <tr>
+                    <td scope="row">
+                        <a href="{% url 'post_detail' post.pk %}">{{  post.requirement }}</a>
+                    </td>
+                    <td>
+                        {{ post.user1   }}
+                    </td>
+                    <td>
+                        {{ post.get_dir_ap_display }}
+                    </td>
+                    <td>
+                        {{ post.updates.last.get_status_display }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+</table>
+
+{% else %}
+<a>Selamat datang di BD Monitoring</a>
+<p>Silahkan login!</p>
+{% endif %}
+
+{% endblock content %}
+ {% block js %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.css"/>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.10.18/af-2.3.0/b-1.5.2/b-colvis-1.5.2/b-flash-1.5.2/b-html5-1.5.2/b-print-1.5.2/cr-1.5.0/fh-3.1.4/r-2.2.2/datatables.min.js"></script>
+<script>
+    $(document).ready( function () {
+    $('#table_id').DataTable({
+    dom: 'B<"clear">lfrtip',
+    buttons: {
+        name: 'primary',
+        buttons: [ 'copy', 'csv', 'excel', 'pdf' ]
+        }}
+    );
+} );
+</script>
+</div>
+{% endblock %}
+
